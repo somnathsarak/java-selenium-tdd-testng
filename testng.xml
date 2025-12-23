@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="OrangeHRM Test Suite" thread-count="2" parallel="tests">
+    <listeners>
+        <listener class-name="base.TestListener"/>
+    </listeners>
+
+    <test name="Dashboard Page Tests">
+        <classes>
+            <class name="tests.DashboardPageTest"/>
+        </classes>
+    </test>
+
+    <test name="Admin Page Tests">
+        <classes>
+            <class name="tests.AdminPageTest"/>
+        </classes>
+    </test>
+
+    <test name="Employee Page Tests">
+        <classes>
+            <class name="tests.EmployeePageTest"/>
+        </classes>
+    </test>
+
+    <test name="Leave Management Page Tests">
+        <classes>
+            <class name="tests.LeaveManagementPageTest"/>
+        </classes>
+    </test>
+
+    <test name="Recruitment Page Tests">
+        <classes>
+            <class name="tests.RecruitmentPageTest"/>
+        </classes>
+    </test>
+</suite>
