@@ -2,33 +2,57 @@ package pages;
 
 import base.ExtentReportManager;
 import base.WebDriverUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 /**
- * OrangeHRM Recruitment Page Object Model
+ * OrangeHRM Recruitment Page Object Model using PageFactory
  * Contains locators and methods for OrangeHRM Recruitment page
  */
 public class RecruitmentPage {
     private WebDriver driver;
 
-    // Recruitment Page locators
-    private By recruitmentTitle = By.xpath("//h6[text()='Recruitment']");
-    private By vacanciesLink = By.xpath("//a[contains(@href, 'vacancy')]");
-    private By candidatesLink = By.xpath("//a[contains(@href, 'candidate')]");
-    private By addVacancyButton = By.xpath("//button[contains(text(), 'Add')]");
-    private By jobTitleInput = By.xpath("//input[@name='jobTitle']");
-    private By vacancyCountInput = By.xpath("//input[@name='numberOfPositions']");
-    private By descriptionTextarea = By.xpath("//textarea[@name='description']");
-    private By candidateNameInput = By.xpath("//input[@name='candidateName']");
-    private By emailInput = By.xpath("//input[@name='email']");
-    private By phoneInput = By.xpath("//input[@name='phone']");
-
     public RecruitmentPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
+
+    // Recruitment Page locators using @FindBy annotation
+    @FindBy(xpath = "//h6[text()='Recruitment']")
+    private WebElement recruitmentTitle;
+
+    @FindBy(xpath = "//a[contains(@href, 'vacancy')]")
+    private WebElement vacanciesLink;
+
+    @FindBy(xpath = "//a[contains(@href, 'candidate')]")
+    private WebElement candidatesLink;
+
+    @FindBy(xpath = "//button[contains(text(), 'Add')]")
+    private WebElement addVacancyButton;
+
+    @FindBy(xpath = "//input[@name='jobTitle']")
+    private WebElement jobTitleInput;
+
+    @FindBy(xpath = "//input[@name='numberOfPositions']")
+    private WebElement vacancyCountInput;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionTextarea;
+
+    @FindBy(xpath = "//input[@name='candidateName']")
+    private WebElement candidateNameInput;
+
+    @FindBy(xpath = "//input[@name='email']")
+    private WebElement emailInput;
+
+    @FindBy(xpath = "//input[@name='phone']")
+    private WebElement phoneInput;
+
+    @FindBy(xpath = "//table[@role='grid']/tbody/tr")
+    private List<WebElement> vacancyRows;
 
     public boolean isRecruitmentPageDisplayed() {
         ExtentReportManager.getExtentTest().info("Checking if recruitment page is displayed");
@@ -93,8 +117,12 @@ public class RecruitmentPage {
 
     public int getVacanciesCount() {
         ExtentReportManager.getExtentTest().info("Getting vacancies count");
-        List<WebElement> vacancies = driver.findElements(By.xpath("//table[@role='grid']/tbody/tr"));
-        ExtentReportManager.getExtentTest().info("Vacancies count: " + vacancies.size());
-        return vacancies.size();
+        int count = vacancyRows.size();
+        ExtentReportManager.getExtentTest().info("Vacancies count: " + count);
+        return count;
+    }
+
+    public WebElement getRecruitmentTitle() {
+        return recruitmentTitle;
     }
 }
