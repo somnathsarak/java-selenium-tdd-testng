@@ -2,33 +2,57 @@ package pages;
 
 import base.ExtentReportManager;
 import base.WebDriverUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 /**
- * OrangeHRM Employee Page Object Model
+ * OrangeHRM Employee Page Object Model using PageFactory
  * Contains locators and methods for OrangeHRM Employee page
  */
 public class EmployeePage {
     private WebDriver driver;
 
-    // Employee Page locators
-    private By employeeTitle = By.xpath("//h6[text()='Employee']");
-    private By employeeListLink = By.xpath("//a[@href='/web/index.php/pim/viewEmployeeList']");
-    private By addEmployeeButton = By.xpath("//button[contains(text(), 'Add')]");
-    private By employeeSearchInput = By.xpath("//input[@placeholder='Type for hints...']");
-    private By searchButton = By.xpath("//button[contains(text(), 'Search')]");
-    private By employeesTable = By.xpath("//table[@role='grid']");
-    private By firstNameInput = By.xpath("//input[@name='firstName']");
-    private By lastNameInput = By.xpath("//input[@name='lastName']");
-    private By employeeIdInput = By.xpath("//input[@placeholder='Employee Id']");
-    private By saveButton = By.xpath("//button[contains(text(), 'Save')]");
-
     public EmployeePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
+
+    // Employee Page locators using @FindBy annotation
+    @FindBy(xpath = "//h6[text()='Employee']")
+    private WebElement employeeTitle;
+
+    @FindBy(xpath = "//a[@href='/web/index.php/pim/viewEmployeeList']")
+    private WebElement employeeListLink;
+
+    @FindBy(xpath = "//button[contains(text(), 'Add')]")
+    private WebElement addEmployeeButton;
+
+    @FindBy(xpath = "//input[@placeholder='Type for hints...']")
+    private WebElement employeeSearchInput;
+
+    @FindBy(xpath = "//button[contains(text(), 'Search')]")
+    private WebElement searchButton;
+
+    @FindBy(xpath = "//table[@role='grid']")
+    private WebElement employeesTable;
+
+    @FindBy(xpath = "//input[@name='firstName']")
+    private WebElement firstNameInput;
+
+    @FindBy(xpath = "//input[@name='lastName']")
+    private WebElement lastNameInput;
+
+    @FindBy(xpath = "//input[@placeholder='Employee Id']")
+    private WebElement employeeIdInput;
+
+    @FindBy(xpath = "//button[contains(text(), 'Save')]")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//table[@role='grid']/tbody/tr")
+    private List<WebElement> employeeRows;
 
     public boolean isEmployeePageDisplayed() {
         ExtentReportManager.getExtentTest().info("Checking if employee page is displayed");
@@ -58,9 +82,9 @@ public class EmployeePage {
 
     public int getEmployeeCount() {
         ExtentReportManager.getExtentTest().info("Getting employee count");
-        List<WebElement> employees = driver.findElements(employeesTable);
-        ExtentReportManager.getExtentTest().info("Employee count: " + employees.size());
-        return employees.size();
+        int count = employeeRows.size();
+        ExtentReportManager.getExtentTest().info("Employee count: " + count);
+        return count;
     }
 
     public void enterFirstName(String firstName) {
@@ -95,5 +119,13 @@ public class EmployeePage {
         enterEmployeeId(employeeId);
         clickSaveButton();
         ExtentReportManager.getExtentTest().info("New employee added successfully");
+    }
+
+    public WebElement getEmployeeTitle() {
+        return employeeTitle;
+    }
+
+    public WebElement getAddEmployeeButton() {
+        return addEmployeeButton;
     }
 }
