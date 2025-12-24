@@ -2,34 +2,56 @@ package pages;
 
 import base.ExtentReportManager;
 import base.WebDriverUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import java.util.List;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 /**
- * OrangeHRM Leave Management Page Object Model
+ * OrangeHRM Leave Management Page Object Model using PageFactory
  * Contains locators and methods for OrangeHRM Leave Management page
  */
 public class LeaveManagementPage {
     private WebDriver driver;
 
-    // Leave Management Page locators
-    private By leaveTitle = By.xpath("//h6[text()='Leave']");
-    private By applyLeaveLink = By.xpath("//a[contains(@href, 'applyLeave')]");
-    private By myLeaveLink = By.xpath("//a[contains(@href, 'myLeave')]");
-    private By leaveTypeLink = By.xpath("//a[contains(@href, 'leaveType')]");
-    private By leavePeriodLink = By.xpath("//a[contains(@href, 'leavePeriod')]");
-    private By leaveEntitlementLink = By.xpath("//a[contains(@href, 'leaveEntitlement')]");
-    private By reportLeaveLink = By.xpath("//a[contains(@href, 'report')]");
-    private By leaveTypeDropdown = By.xpath("//select[@name='leaveType']");
-    private By leaveFromDate = By.xpath("//input[@name='fromDate']");
-    private By leaveToDDate = By.xpath("//input[@name='toDate']");
-    private By remarksTextarea = By.xpath("//textarea[@name='remarks']");
-
     public LeaveManagementPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
+
+    // Leave Management Page locators using @FindBy annotation
+    @FindBy(xpath = "//h6[text()='Leave']")
+    private WebElement leaveTitle;
+
+    @FindBy(xpath = "//a[contains(@href, 'applyLeave')]")
+    private WebElement applyLeaveLink;
+
+    @FindBy(xpath = "//a[contains(@href, 'myLeave')]")
+    private WebElement myLeaveLink;
+
+    @FindBy(xpath = "//a[contains(@href, 'leaveType')]")
+    private WebElement leaveTypeLink;
+
+    @FindBy(xpath = "//a[contains(@href, 'leavePeriod')]")
+    private WebElement leavePeriodLink;
+
+    @FindBy(xpath = "//a[contains(@href, 'leaveEntitlement')]")
+    private WebElement leaveEntitlementLink;
+
+    @FindBy(xpath = "//a[contains(@href, 'report')]")
+    private WebElement reportLeaveLink;
+
+    @FindBy(xpath = "//select[@name='leaveType']")
+    private WebElement leaveTypeDropdown;
+
+    @FindBy(xpath = "//input[@name='fromDate']")
+    private WebElement leaveFromDate;
+
+    @FindBy(xpath = "//input[@name='toDate']")
+    private WebElement leaveToDDate;
+
+    @FindBy(xpath = "//textarea[@name='remarks']")
+    private WebElement remarksTextarea;
 
     public boolean isLeavePageDisplayed() {
         ExtentReportManager.getExtentTest().info("Checking if leave page is displayed");
@@ -96,5 +118,9 @@ public class LeaveManagementPage {
         ExtentReportManager.getExtentTest().info("Entering remarks: " + remarks);
         WebDriverUtils.sendKeys(driver, remarksTextarea, remarks);
         ExtentReportManager.getExtentTest().info("Remarks entered");
+    }
+
+    public WebElement getLeaveTitle() {
+        return leaveTitle;
     }
 }
